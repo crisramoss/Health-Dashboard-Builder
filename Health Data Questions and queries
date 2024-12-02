@@ -1,0 +1,60 @@
+SELECT * FROM health_data.ocd_patient_dataset;
+
+
+#1 count of Female and male that have OCD & Avg Obsession Score
+select
+	Gender,
+    count(`Patient ID`) as patient_count,
+    round(avg(`Y-BOCS Score (Obsessions)`),2) as avg_obs_score
+from	
+	health_data.ocd_patient_dataset
+group by 1
+order by 2;
+
+
+#2 count of patients by ethnicity and avg obsession score
+
+select
+	Ethnicity,
+    Count(`Patient ID`) as patient_count,
+    round(avg(`Y-BOCS Score (Obsessions)`),2) as avg_obs_score
+from	
+	health_data.ocd_patient_dataset
+group by 1
+order by 2 desc;
+
+
+#3 Number of people diagnosed with OCD MOM
+
+alter table health_data.ocd_patient_dataset
+modify `OCD Diagnosis Date` date;
+
+select
+	date_format(`OCD Diagnosis Date`, '%Y-%m-%01 00:00:00') as month,
+    Count(`Patient ID`) as patient_count
+from	
+	health_data.ocd_patient_dataset
+group by 1
+order by 1;
+
+#4 what is the most common obsession type (count) and avg obsession score
+
+select
+	`Obsession Type`,
+	count(`Patient ID`) as Patient_count,
+	round(avg(`Y-BOCS Score (Obsessions)`),2) as avg_obs_score
+from
+	health_data.ocd_patient_dataset
+group by 1
+order by 2 desc;
+
+# what is the most common compulsion type (count) and avg obsession score
+
+select
+	`Compulsion Type`,
+    count(`Patient ID`) as patient_count,
+	round(avg(`Y-BOCS Score (Obsessions)`),2) as avg_obs_score
+from
+	health_data.ocd_patient_dataset
+group by 1
+order by 2 desc;
